@@ -1,0 +1,11 @@
+h1. JQuery plugin for HTML5 native Drag&Drop
+
+This is a work in progress. Tested on Firefox 3.6 and Safari 4.0.4 on MacOS. Comments are welcome. 
+
+h2. Fixing JQuery events
+
+This plugin restore the **dataTransfer** property to JQuery events:
+
+bc. $('img').bind('dragstart', function(e) {
+    e.dataTransfer.setData( 'URL', $(this).attr('href) ) // <-- yes e.dataTransfer is now available!
+})
