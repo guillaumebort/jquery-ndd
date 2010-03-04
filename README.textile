@@ -94,7 +94,7 @@ bc. $('#events').droppable(
     }
 )
 
-The stanard content types **URL**, **Text** and **Files** are supported.
+The standard content types shortcuts **URL**, **Text** and **Files** are supported.
 
 **.droppable** uses live events. That means that you can add new drop zones matching the selector in the document later.
 
