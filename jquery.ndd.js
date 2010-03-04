@@ -76,7 +76,6 @@ jQuery.fn.extend({
                     case 'all': e.dataTransfer.dropEffect = 'copy'; break
                 }
             }
-            //e.dataTransfer.dropEffect = 'copy' 
             
             if(e.type == 'dragenter' || e.type == 'dragover') {
                 clearTimeout(currents[this.uuid].leaveTimeout);
