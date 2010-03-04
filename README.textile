@@ -44,7 +44,9 @@ h2. $.draggable()
 
 bc. .draggable( dragstartHandler, [dragendHandler] )
 
-The **draggable** method allows to define a element as draggable, and help to set the **dataTranser** content. You return the **dataTranser** content as a JSON object in the **dragstart** handler.
+The **.draggable** method allows to define a element as draggable, and help to set the **dataTranser** content. You return the **dataTranser** content as a JSON object in the **dragstart** handler.
+
+Elements must define the **draggable="true"** attribute.
 
 bc. $('img').draggable(
     function() {
@@ -67,3 +69,35 @@ bc. $('img').draggable(
     }
 )
 
+**.draggable** uses live events. That means that you can add new draggable elements matching the selector in the document later.
+
+h2. $.droppable()
+
+bc. .droppable( contentTypes, [dragenterHandler], [dragleaveHandler], [drophandler] )
+
+The **.droppable** method allows to define a element as a drop zone for several data types. The **dragenter** and **dragleave** handler are called when the drop zone receive a drag of a expected content type (in the same time it fix problems caused by events bubbling in contained elements).
+
+The **contentTypes** argument is a list of space separated accepted content type. Using **'*'** means that the drop zone accept anything.
+
+Example:
+
+bc. $('#events').droppable(
+    'text/x-vCalendar',
+    function() {
+        $(this).addClass('dropZone')
+    },
+    function() {
+        $(this).removeClass('dropZone')
+    },
+    function(e) {
+        alert( 'Dropped --> ' + e.dataTransfer.getData('text/x-vCalendar') )
+    }
+)
+
+The stanard content types **URL**, **Text** and **Files** are supported.
+
+**.droppable** uses live events. That means that you can add new drop zones matching the selector in the document later.
+
+h2. Demonstration
+
+The **example.html** file contains several examples.
