@@ -77,7 +77,7 @@ bc. .droppable( contentTypes, [dragenterHandler], [dragleaveHandler], [drophandl
 
 The **.droppable** method allows to define a element as a drop zone for several data types. The **dragenter** and **dragleave** handler are called when the drop zone receive a drag of a expected content type (in the same time it fix problems caused by events bubbling in contained elements).
 
-The **contentTypes** argument is a list of space separated accepted content type. Using **'*'** means that the drop zone accept anything.
+The **contentTypes** argument is a list of space separated accepted content type. Using '*' means that the drop zone accept anything.
 
 Example:
 
