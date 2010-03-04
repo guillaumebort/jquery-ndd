@@ -27,3 +27,43 @@ For example:
 bc. $('img').dragstart(function() {
     e.dataTransfer.setData( 'URL', $(this).attr('href) ) 
 })
+
+h2. Fixing CSS
+
+Webkit based browser need a custom CSS rule to define elements as **draggable**. The plugin insert it automatically.
+
+In fact, these rules are inserted to the current document:
+
+bc. [draggable=true] {
+    -webkit-user-drag: element; 
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+}
+
+h2. $.draggable()
+
+bc. .draggable( dragstartHandler, [dragendHandler] )
+
+The **draggable** method allows to define a element as draggable, and help to set the **dataTranser** content. You return the **dataTranser** content as a JSON object in the **dragstart** handler.
+
+bc. $('img').draggable(
+    function() {
+        return {
+            'URL': $(this).attr('href'),
+            'Text': $(this).attr('alt') || $(this).attr('href')
+        }
+    }
+)
+
+You can also add the **effect** property to define the allowed drag effects:
+
+bc. $('img').draggable(
+    function() {
+        return {
+            effect: 'copyMove',
+            'URL': $(this).attr('href'),
+            'Text': $(this).attr('alt') || $(this).attr('href')
+        }
+    }
+)
+
