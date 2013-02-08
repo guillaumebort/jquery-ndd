@@ -16,8 +16,8 @@
  */
 
 // Fix styles
-jQuery(function() {
-    jQuery('head').append('<style type="text/css">[draggable=true] {-webkit-user-drag: element; -webkit-user-select: none; -moz-user-select: none;}</style>');
+$(function() {
+    $('head').append('<style type="text/css">[draggable=true] {-webkit-user-drag: element; -webkit-user-select: none; -moz-user-select: none;}</style>');
 })
 
 // Fix events fix...
@@ -34,14 +34,14 @@ jQuery.event.fix = function(event) {
 // Add Drag&Drop handlers
 jQuery.each( ("drag dragenter dragleave dragover dragend drop dragstart").split(" "), function( i, name ) {
 
-	// Handle event binding
-	jQuery.fn[ name ] = function( fn ) {
-		return fn ? this.bind( name, fn ) : this.trigger( name );
-	};
+    // Handle event binding
+    jQuery.fn[ name ] = function( fn ) {
+        return fn ? this.bind( name, fn ) : this.trigger( name );
+    };
 
-	if ( jQuery.attrFn ) {
-		jQuery.attrFn[ name ] = true;
-	}
+    if ( jQuery.attrFn ) {
+        jQuery.attrFn[ name ] = true;
+    }
 });
 
 // Live draggable's && droppable's
@@ -72,12 +72,15 @@ jQuery.fn.extend({
     },
 
     droppable: function(accept, enter, leave, drop) {
-        var currents = {}, uuid = 0;
+        var uuid = 0;
             
         this.live('dragenter dragleave dragover drop', function(e) {
+            if(!this.currents) {
+                this.currents = [];
+            }
             if(!this.uuid) {
                 this.uuid = ++uuid;
-                currents[this.uuid] = {hover: false, leaveTimeout: null};
+                this.currents[this.uuid] = {hover: false, leaveTimeout: null};
             }
             
             // TODO add custom drop effect
@@ -95,9 +98,11 @@ jQuery.fn.extend({
             }
             
             if(e.type == 'dragenter' || e.type == 'dragover') {
-                clearTimeout(currents[this.uuid].leaveTimeout);
+                if(this.currents[this.uuid].leaveTimeout != null) {
+                    clearTimeout(this.currents[this.uuid].leaveTimeout);
+                }
                 
-                if(!currents[this.uuid].hover) {
+                if(!this.currents[this.uuid].hover) {
                     var accepted = false;
                     if(jQuery.isFunction(accept)) {
                         accepted = accept.apply(this, [e])
@@ -141,7 +146,7 @@ jQuery.fn.extend({
                     if(accepted) {
                         e.preventDefault();
                         if(enter) enter.apply(this, [e]);
-                        currents[this.uuid].hover = true;
+                        this.currents[this.uuid].hover = true;
                     }
                 } else {
                     e.preventDefault();
@@ -149,19 +154,19 @@ jQuery.fn.extend({
             } 
              
             if(e.type == 'dragleave') {
-                if(currents[this.uuid].hover) {
+                if(this.currents[this.uuid].hover) {
                     var self = this;
-                    currents[this.uuid].leaveTimeout = setTimeout(function() {
+                    this.currents[this.uuid].leaveTimeout = setTimeout(function() {
                         if(leave) leave.apply(self, [e]);
-                        currents[self.uuid].hover = false;
+                        self.currents[self.uuid].hover = false;
                     }, 50);
                 }
             }  
             
             if(e.type == 'drop') {
-                if(currents[this.uuid].hover) {
+                if(this.currents[this.uuid].hover) {
                     if(leave) leave.apply(this, [e]);
-                    currents[this.uuid].hover = false;
+                    this.currents[this.uuid].hover = false;
                     if(drop) drop.apply(this, [e]);
                     e.preventDefault();
                 }
