@@ -26,7 +26,9 @@ var originalFix = jQuery.event.fix;
 jQuery.event.fix = function(event) {
     event = originalFix.apply(this, [event]);
     if( event.type.indexOf('drag') == 0 || event.type.indexOf('drop') == 0 ) {
-        event.dataTransfer = event.originalEvent.dataTransfer;
+        if(event.originalEvent) {
+            event.dataTransfer = event.originalEvent.dataTransfer;
+        }
     }
     return event;
 }
